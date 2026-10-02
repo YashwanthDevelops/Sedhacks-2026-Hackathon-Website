@@ -14,7 +14,9 @@ Then open [http://127.0.0.1:8765](http://127.0.0.1:8765).
 
 ## Live site
 
-GitHub Actions publishes the site to [GitHub Pages](https://yashwanthdevelops.github.io/Sedhacks-2026-Hackathon-Website/) whenever a commit is pushed to `main`.
+**Live website:** [https://yashwanthdevelops.github.io/Sedhacks-2026-Hackathon-Website/](https://yashwanthdevelops.github.io/Sedhacks-2026-Hackathon-Website/)
+
+GitHub Actions publishes updates whenever a commit is pushed to `main`.
 
 ## What’s included
 
