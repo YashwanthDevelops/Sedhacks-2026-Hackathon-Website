@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "surface": "Sedhacks 2026 single-page event website",
+  "tokens": {
+    "color": {
+      "background": "#040942",
+      "text": "#F3EFF5",
+      "secondaryText": "#C7B5E3",
+      "violet": "#8650C7",
+      "deepViolet": "#382080",
+      "pink": "#DF55A5",
+      "red": "#C32638",
+      "gold": "#FFCB28",
+      "cyan": "#55D8E8",
+      "control": "#EEE8F5"
+    },
+    "typography": {
+      "body": { "family": "VT323", "source": "assets/fonts/vt323-regular.ttf" },
+      "display": { "family": "Pixelify Sans", "source": "assets/fonts/pixelify-sans-bold.ttf" }
+    },
+    "layout": {
+      "contentMax": "70rem",
+      "desktopHeader": "5.5rem",
+      "mobileHeader": "4.5rem",
+      "mobileGutter": "1.25rem"
+    }
+  },
+  "principles": [
+    "Keep the navy star field continuous across chapters.",
+    "Use original stepped pixel scenes and supplied identity artwork.",
+    "Keep event facts readable as live text and do not invent missing terms.",
+    "Use generous vertical pauses and square-edged controls."
+  ]
+}
