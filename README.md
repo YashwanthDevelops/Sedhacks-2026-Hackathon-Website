@@ -16,6 +16,8 @@ py -m http.server 8765 --bind 127.0.0.1
 
 Then open [http://127.0.0.1:8765](http://127.0.0.1:8765).
 
+The site follows the system's reduced-motion setting. To preview that path without changing your system settings, open [http://127.0.0.1:8765/?reduce=1](http://127.0.0.1:8765/?reduce=1).
+
 ## Live site
 
 **Live website:** [https://yashwanthdevelops.github.io/Sedhacks-2026-Hackathon-Website/](https://yashwanthdevelops.github.io/Sedhacks-2026-Hackathon-Website/)
@@ -27,7 +29,7 @@ GitHub Actions publishes updates whenever a commit is pushed to `main`.
 - Event overview, launch countdown, schedule, five hackathon tracks, prize details, partner information and FAQ.
 - A highlighted launch window with a live countdown, plus direct registration access in the navigation.
 - Keyboard-operable track tabs and FAQ controls.
-- Slow cloud and scene motion, section reveals, clean track transitions and a subtle registration outline pulse. Ambient movement can be paused; the site follows the system’s reduced-motion setting.
+- Slow cloud drift, subtle star twinkle, registration button sheen, timeline reveals, track crossfades and animated FAQ answers. Ambient movement can be paused and stops off screen; reduced motion keeps short fades while removing drift and parallax.
 - Self-hosted fonts and WebP artwork, with no SVG assets.
 
 ## Project layout

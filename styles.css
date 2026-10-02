@@ -30,6 +30,10 @@
   --header-height: 88px;
   --gutter: 24px;
   --pixel: 4px;
+  --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-fast: 200ms;
+  --motion-reveal: 520ms;
+  --cloud-travel: clamp(8px, 1.7vw, 26px);
   font-family: "VT323", "Courier New", monospace;
   font-size: 24px;
   font-synthesis: none;
@@ -561,51 +565,31 @@ h2,
 }
 
 .timer-section {
-  position: relative;
-  isolation: isolate;
-  width: min(940px, calc(100% - var(--gutter) - var(--gutter)));
-  padding: clamp(38px, 5vw, 58px) clamp(18px, 5vw, 56px) clamp(32px, 4vw, 48px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-areas: "command clock" "title clock" "kickoff clock" "facts facts";
+  column-gap: clamp(32px, 6vw, 80px);
+  padding-block: 44px 32px;
   margin: 14px auto 46px;
-  overflow: hidden;
-  background: linear-gradient(145deg, rgb(11 22 83 / 94%), rgb(5 10 59 / 96%));
-  border: 1px solid rgb(85 216 232 / 25%);
-  border-radius: 28px;
-  box-shadow: 0 24px 70px rgb(2 5 35 / 25%), inset 0 1px 0 rgb(243 239 245 / 8%);
-  text-align: center;
-}
-
-.timer-section::before {
-  position: absolute;
-  z-index: 0;
-  inset: 0;
-  content: "";
-  background: radial-gradient(ellipse at 50% -28%, rgb(85 216 232 / 14%), transparent 68%);
-  pointer-events: none;
-}
-
-.timer-section > :not(.sr-only) {
-  position: relative;
-  z-index: 1;
+  text-align: left;
 }
 
 .timer-section > .command-label {
   display: inline-flex;
   align-items: center;
-  min-height: 31px;
-  padding: 4px 10px;
-  margin: 0 auto 13px;
+  grid-area: command;
+  padding: 0;
+  margin: 0 0 8px;
   color: var(--cyan);
-  background: rgb(85 216 232 / 7%);
-  border: 1px solid rgb(85 216 232 / 25%);
-  border-radius: 999px;
   font-size: 18px;
 }
 
 .timer-section h2 {
+  grid-area: title;
+  align-self: end;
   color: var(--ink);
-  font-size: clamp(2.1rem, 7vw, 4.5rem);
+  font-size: clamp(2.4rem, 5vw, 4rem);
   letter-spacing: -0.025em;
-  text-shadow: 0 0 26px rgb(85 216 232 / 17%);
 }
 
 .section-heading {
@@ -635,14 +619,12 @@ h2:focus-visible {
 }
 
 .timer-static {
-  display: inline-block;
+  grid-area: kickoff;
+  display: block;
   max-width: 100%;
-  padding: 9px 14px;
-  margin: 14px 0 0;
-  color: var(--ink);
-  background: rgb(4 9 66 / 52%);
-  border: 1px solid rgb(199 181 227 / 22%);
-  border-radius: 12px;
+  padding: 0;
+  margin: 7px 0 0;
+  color: var(--muted);
   font-size: clamp(19px, 2.5vw, 22px);
   text-wrap: balance;
 }
@@ -654,40 +636,47 @@ h2:focus-visible {
 }
 
 .urgency-line {
-  margin: 20px 0 7px;
+  margin: 0 0 12px;
   color: var(--muted);
-  font-size: 23px;
+  font-size: 21px;
 }
 
 .countdown-grid {
   display: flex;
-  justify-content: center;
+  align-self: center;
+  justify-content: flex-start;
   align-items: flex-start;
-  gap: clamp(11px, 2.4vw, 31px);
+  gap: clamp(10px, 2vw, 25px);
   font-variant-numeric: tabular-nums;
+}
+
+.timer-section > .countdown {
+  grid-area: clock;
+  align-self: center;
+  min-width: 0;
 }
 
 .countdown-unit {
   display: flex;
-  min-width: 82px;
+  min-width: 0;
   flex-direction: column;
   align-items: center;
 }
 
 .countdown-value {
   color: var(--gold);
-  font-size: clamp(4rem, 8vw, 6rem);
+  font-size: clamp(3.5rem, 6vw, 5.25rem);
   line-height: 0.9;
-  text-shadow: 0 0 22px rgb(255 203 40 / 13%);
 }
 
 .countdown-label {
-  margin-top: 8px;
+  margin-top: 7px;
   color: var(--muted);
-  font-size: 19px;
+  font-size: 17px;
 }
 
 .countdown-colon {
+  display: none;
   padding-top: 4px;
   color: var(--gold);
   font-size: 52px;
@@ -701,23 +690,32 @@ h2:focus-visible {
 }
 
 .event-facts {
+  grid-area: facts;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px 34px;
+  justify-content: flex-start;
+  gap: 9px 32px;
   padding-top: 18px;
-  margin-top: 23px;
+  margin-top: 26px;
   color: var(--ink);
-  font-size: 26px;
-  border-top: 1px solid rgb(199 181 227 / 20%);
+  font-size: 22px;
+  border-top: 1px solid rgb(199 181 227 / 28%);
 }
 
 .event-facts p {
   display: inline-flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   gap: 8px;
+  min-width: 0;
   margin: 0;
+}
+
+.fact-copy {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 6px;
+  min-width: 0;
 }
 
 .fact-icon {
@@ -904,22 +902,6 @@ h2:focus-visible {
   display: none;
 }
 
-.js-ready .track-panel:not([hidden]) {
-  animation: track-panel-arrive 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-@keyframes track-panel-arrive {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 .track-copy {
   max-width: 43ch;
 }
@@ -998,9 +980,65 @@ h2:focus-visible {
   text-align: center;
 }
 
+.prize-podium {
+  display: grid;
+  grid-template-areas: "second first third";
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr) minmax(0, 1fr);
+  align-items: end;
+  gap: clamp(8px, 2vw, 24px);
+  width: min(640px, 100%);
+  padding: 0;
+  margin: 0 auto 26px;
+  list-style: none;
+}
+
+.prize-winner {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.prize-winner--first { grid-area: first; }
+.prize-winner--second { grid-area: second; }
+.prize-winner--third { grid-area: third; }
+
+.prize-winner .trophy-art {
+  width: min(100%, 144px);
+  flex: 0 0 auto;
+}
+
+.prize-winner--first .trophy-art { width: min(100%, 208px); }
+
+.prize-place {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: clamp(17px, 2.2vw, 21px);
+  line-height: 1;
+}
+
+.prize-payout {
+  margin: 4px 0 0;
+  color: var(--ink);
+  font-size: clamp(28px, 4vw, 43px);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.prize-winner--first .prize-payout {
+  color: var(--gold);
+  font-size: clamp(36px, 5vw, 56px);
+}
+
 .trophy {
   width: 156px;
   height: auto;
+}
+
+.prize-display > .prize-amount {
+  margin-top: 0;
+  font-size: clamp(42px, 5vw, 52px);
 }
 
 .prize-amount {
@@ -1468,18 +1506,30 @@ h2:focus-visible {
   }
 
   .timer-section {
-    padding: 32px 16px 34px;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "command" "title" "kickoff" "clock" "facts";
+    row-gap: 0;
+    padding-block: 30px 24px;
     margin-block: 12px 36px;
-    border-radius: 22px;
   }
 
   .timer-section > .command-label {
-    margin-bottom: 10px;
+    margin-bottom: 7px;
     font-size: 17px;
   }
 
   .timer-section h2 {
-    font-size: clamp(2rem, 10vw, 3rem);
+    font-size: clamp(2rem, 9vw, 2.8rem);
+  }
+
+  .timer-static {
+    margin-top: 5px;
+    font-size: 20px;
+  }
+
+  .urgency-line {
+    margin: 25px 0 10px;
+    font-size: 20px;
   }
 
   h2 {
@@ -1494,7 +1544,7 @@ h2:focus-visible {
   .countdown-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 3px;
+    gap: 4px;
     width: 100%;
   }
 
@@ -1508,7 +1558,7 @@ h2:focus-visible {
 
   .countdown-label {
     margin-top: 6px;
-    font-size: 17px;
+    font-size: 16px;
   }
 
   .countdown-colon {
@@ -1518,8 +1568,9 @@ h2:focus-visible {
   .event-facts {
     flex-direction: column;
     gap: 10px;
-    margin-top: 25px;
-    font-size: 22px;
+    padding-top: 14px;
+    margin-top: 22px;
+    font-size: 20px;
   }
 
   .event-facts p {
@@ -1641,13 +1692,40 @@ h2:focus-visible {
     padding-bottom: 0;
   }
 
-  .trophy {
-    width: 132px;
+  .prize-podium {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: 7px;
+    margin-bottom: 22px;
+  }
+
+  .prize-winner .trophy-art {
+    width: min(100%, 76px);
+  }
+
+  .prize-winner--first .trophy-art {
+    width: min(100%, 112px);
+  }
+
+  .prize-place {
+    margin-top: 8px;
+    font-size: 16px;
+  }
+
+  .prize-payout {
+    margin-top: 3px;
+    font-size: clamp(25px, 8vw, 32px);
+  }
+
+  .prize-winner--first .prize-payout {
+    font-size: clamp(33px, 10vw, 40px);
+  }
+
+  .prize-display > .prize-amount {
+    font-size: 42px;
   }
 
   .prize-amount {
     margin-top: 7px;
-    font-size: 68px;
   }
 
   .prize-display h3 {
@@ -1794,7 +1872,7 @@ h2:focus-visible {
   }
 
   .event-facts {
-    font-size: 20px;
+    font-size: 19px;
   }
 
   .track-tab span {
@@ -1803,6 +1881,30 @@ h2:focus-visible {
 
   .countdown-label {
     font-size: 15px;
+  }
+
+  .prize-podium {
+    gap: 5px;
+  }
+
+  .prize-winner .trophy-art {
+    width: min(100%, 67px);
+  }
+
+  .prize-winner--first .trophy-art {
+    width: min(100%, 99px);
+  }
+
+  .prize-place {
+    font-size: 14px;
+  }
+
+  .prize-payout {
+    font-size: 25px;
+  }
+
+  .prize-winner--first .prize-payout {
+    font-size: 33px;
   }
 
   .footer-content {
@@ -2031,19 +2133,200 @@ h2:focus-visible {
   }
 }
 
+.starfield::before,
+.starfield::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Highlight a handful of existing stars; the rest of the sky stays still. */
+.starfield::before {
+  background-image:
+    radial-gradient(circle 1px at 3% 1%, var(--ink) 0 1px, transparent 1.5px),
+    radial-gradient(circle 1px at 25% 2%, var(--gold) 0 1px, transparent 1.5px),
+    radial-gradient(circle 1px at 61% 6%, var(--cyan) 0 1px, transparent 1.5px),
+    radial-gradient(circle 1px at 32% 13%, var(--ink) 0 1px, transparent 1.5px),
+    radial-gradient(circle 1px at 72% 16%, var(--ink) 0 1px, transparent 1.5px),
+    radial-gradient(circle 1px at 48% 59%, var(--ink) 0 1px, transparent 1.5px);
+}
+
+.starfield::after {
+  background-image:
+    radial-gradient(circle 1px at 14% 4%, var(--cyan) 0 1px, transparent 1.5px),
+    radial-gradient(circle 1px at 48% 1%, var(--ink) 0 1px, transparent 1.5px),
+    radial-gradient(circle 1px at 91% 9%, var(--gold) 0 1px, transparent 1.5px),
+    radial-gradient(circle 1px at 19% 16%, var(--muted) 0 1px, transparent 1.5px),
+    radial-gradient(circle 1px at 58% 12%, var(--cyan) 0 1px, transparent 1.5px),
+    radial-gradient(circle 1px at 35% 52%, var(--gold) 0 1px, transparent 1.5px);
+}
+
+@media (min-width: 768px) {
+  .primary-nav { position: relative; }
+}
+
+.primary-nav a:not(.nav-register)::before,
+.primary-nav a:not(.nav-register)::after,
+.register-outline::before {
+  display: none;
+}
+
+.nav-marker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 25px;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--cyan);
+  box-shadow: 0 0 9px 1px rgb(85 216 232 / 35%);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(var(--marker-x, 0px), var(--marker-y, 0px), 0);
+  transition: transform 260ms var(--motion-ease), opacity 160ms ease-out;
+}
+
+.nav-marker[data-active="true"] { opacity: 1; }
+
+.register-sheen {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.register-sheen-light {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 35%, rgb(243 239 245 / 10%) 43%, rgb(243 239 245 / 42%) 49%, rgb(243 239 245 / 10%) 55%, transparent 63%);
+  transform: translateX(-110%);
+}
+
+.countdown-value { font-variant-numeric: tabular-nums; }
+
+.js-ready .track-panels { position: relative; }
+
+.track-panel.track-panel-leaving {
+  position: absolute;
+  inset: 0 0 auto;
+  pointer-events: none;
+}
+
+.track-tab {
+  transition: border-color var(--motion-fast) ease-out, color var(--motion-fast) ease-out, background-color var(--motion-fast) ease-out, transform var(--motion-fast) var(--motion-ease);
+}
+
+.track-scene {
+  translate: var(--scene-x, 0px) var(--scene-y, 0px);
+  transition: translate 360ms var(--motion-ease);
+}
+
+.trophy-art {
+  position: relative;
+  display: block;
+  width: 156px;
+}
+
+.trophy-art .trophy { width: 100%; }
+
+.trophy-glint {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  -webkit-mask: url("assets/art/trophy.webp") center / contain no-repeat;
+  mask: url("assets/art/trophy.webp") center / contain no-repeat;
+  pointer-events: none;
+}
+
+.trophy-glint::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: linear-gradient(110deg, transparent 40%, rgb(255 244 207 / 36%) 50%, transparent 60%);
+  transform: translateX(-110%);
+}
+
+.sponsor-mark img { transition: transform 240ms var(--motion-ease); }
+.faq-toggle,
+.footer-column a { transition: color 160ms ease-out; }
+.faq-transitioning { overflow: hidden; }
+
+.faq-marker {
+  position: relative;
+  font-size: 0;
+}
+
+.faq-marker::before,
+.faq-marker::after {
+  position: absolute;
+  top: 13px;
+  left: 8px;
+  width: 12px;
+  height: 2px;
+  content: "";
+  background: currentColor;
+}
+
+.faq-marker::after {
+  transform: rotate(90deg);
+  transition: transform 220ms var(--motion-ease), opacity 160ms ease-out;
+}
+
+.faq-toggle[aria-expanded="true"] .faq-marker::after {
+  opacity: 0;
+  transform: rotate(0deg) scaleX(0);
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  html.motion-enabled .track-tab:hover { transform: translateY(-2px); }
+  html.motion-enabled .sponsor-mark:hover img,
+  html.motion-enabled .sponsor-mark:focus-visible img { transform: scale(1.025); }
+}
+
+html.motion-reduced { scroll-behavior: auto; }
+html.motion-reduced .nav-marker { transition: opacity 140ms ease-out; }
+html.motion-reduced .primary-nav a { transition: color 140ms ease-out, background-color 140ms ease-out; }
+html.motion-reduced .track-scene { translate: none; transition: none; }
+html.motion-reduced .faq-marker::after { transition: opacity 140ms ease-out; }
+html.motion-reduced .pixel-button { transition: color 140ms ease-out, background-color 140ms ease-out; }
+html.motion-reduced .pixel-button:active { transform: none; }
+
+html.motion-paused .ambient-motion,
+html.motion-suspended .ambient-motion,
+html.motion-paused .starfield::before,
+html.motion-paused .starfield::after,
+html.motion-suspended .starfield::before,
+html.motion-suspended .starfield::after,
+html.motion-paused .register-sheen-light,
+html.motion-suspended .register-sheen-light,
+html.motion-paused .trophy-glint::before,
+html.motion-suspended .trophy-glint::before {
+  animation-play-state: paused !important;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   html.motion-enabled .hero-content > * {
-    animation: hero-arrive 460ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: hero-arrive 580ms var(--motion-ease) both;
   }
 
-  html.motion-enabled .hero-content > :nth-child(2) { animation-delay: 45ms; }
-  html.motion-enabled .hero-content > :nth-child(3) { animation-delay: 90ms; }
-  html.motion-enabled .hero-content > :nth-child(4) { animation-delay: 135ms; }
-  html.motion-enabled .hero-content > :nth-child(5) { animation-delay: 180ms; }
-  html.motion-enabled .hero-content > :nth-child(6) { animation-delay: 225ms; }
+  html.motion-enabled .hero-content > :nth-child(2) { animation-delay: 55ms; }
+  html.motion-enabled .hero-content > :nth-child(3) { animation-delay: 110ms; }
+  html.motion-enabled .hero-content > :nth-child(4) { animation-delay: 165ms; }
+  html.motion-enabled .hero-content > :nth-child(5) { animation-delay: 220ms; }
+  html.motion-enabled .hero-content > :nth-child(6) { animation-delay: 275ms; }
 
-  html.motion-enabled .starfield.ambient-motion {
-    animation: starfield-breathe 28s ease-in-out infinite alternate;
+  html.motion-enabled .starfield::before {
+    animation: star-twinkle 18s ease-in-out infinite alternate;
+    animation-play-state: paused;
+  }
+
+  html.motion-enabled .starfield::after {
+    animation: star-twinkle 23s ease-in-out -9s infinite alternate-reverse;
+    animation-play-state: paused;
   }
 
   html.motion-enabled .cloud-layer-top.ambient-motion {
@@ -2058,8 +2341,18 @@ h2:focus-visible {
     animation: scroll-cue-drift 3.8s ease-in-out infinite;
   }
 
-  html.motion-enabled .trophy.ambient-motion {
+  html.motion-enabled .trophy-art.ambient-motion {
     animation: trophy-drift 8s ease-in-out infinite;
+  }
+
+  html.motion-enabled .prize-winner--second .trophy-art {
+    animation-delay: -2.1s;
+    animation-duration: 8.6s;
+  }
+
+  html.motion-enabled .prize-winner--third .trophy-art {
+    animation-delay: -3.8s;
+    animation-duration: 9.2s;
   }
 
   html.motion-enabled .satellite-accent.ambient-motion {
@@ -2071,17 +2364,37 @@ h2:focus-visible {
     animation: register-icon-drift 7.5s ease-in-out infinite;
   }
 
-  html.motion-enabled .pixel-button.register-outline::before,
-  html.motion-enabled .primary-nav .nav-register.register-outline::before {
-    animation: register-outline-pulse 6.4s ease-in-out 900ms infinite;
+  html.motion-enabled .register-sheen-light {
+    animation: register-sheen-pass 12s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    animation-play-state: paused;
   }
 
-  html.motion-enabled .js-ready .track-panel:not([hidden]) .track-copy {
-    animation: track-copy-arrive 340ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  html.motion-enabled .register-outline[data-motion-visible="true"] .register-sheen-light {
+    animation-play-state: running;
   }
 
-  html.motion-enabled .js-ready .track-panel:not([hidden]) .track-scene {
-    animation: track-scene-arrive 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  html.motion-enabled .register-outline:nth-child(5) .register-sheen-light {
+    animation-delay: -2s;
+  }
+
+  html.motion-enabled .footer-register .register-sheen-light {
+    animation-delay: -4s;
+  }
+
+  html.motion-enabled .timeline-list.is-revealed::before {
+    animation: timeline-line 720ms var(--motion-ease) both;
+    transform-origin: left center;
+  }
+
+  html.motion-enabled .timeline-list.is-revealed .timeline-item {
+    animation: milestone-arrive 480ms var(--motion-ease) both;
+  }
+
+  html.motion-enabled .timeline-list.is-revealed .timeline-item:nth-child(2) { animation-delay: 130ms; }
+  html.motion-enabled .timeline-list.is-revealed .timeline-item:nth-child(3) { animation-delay: 260ms; }
+
+  html.motion-enabled .prize-display.is-revealed .prize-winner--first .trophy-glint::before {
+    animation: trophy-glint 950ms ease-in-out 180ms both;
   }
 
   html.motion-ready .motion-reveal:not(.is-revealed) {
@@ -2090,7 +2403,7 @@ h2:focus-visible {
   }
 
   .motion-reveal {
-    transition: opacity 460ms cubic-bezier(0.22, 1, 0.36, 1), transform 460ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: opacity var(--motion-reveal) var(--motion-ease), transform var(--motion-reveal) var(--motion-ease);
     transition-delay: var(--reveal-delay, 0ms);
   }
 
@@ -2100,12 +2413,21 @@ h2:focus-visible {
     transform: none !important;
   }
 
-  html.motion-paused .ambient-motion {
-    animation-play-state: paused !important;
+  html.motion-enabled .ambient-motion {
+    animation-play-state: paused;
   }
 
-  html.motion-paused .register-outline::before {
-    animation-play-state: paused !important;
+  html.motion-enabled .ambient-motion[data-motion-visible="true"],
+  html.motion-enabled .starfield[data-motion-visible="true"]::before,
+  html.motion-enabled .starfield[data-motion-visible="true"]::after {
+    animation-play-state: running;
+  }
+
+  @media (max-width: 680px) {
+    html.motion-enabled .timeline-list.is-revealed::before {
+      animation-name: timeline-line-vertical;
+      transform-origin: center top;
+    }
   }
 }
 
@@ -2121,19 +2443,20 @@ h2:focus-visible {
   }
 }
 
-@keyframes starfield-breathe {
-  from { opacity: 0.88; }
-  to { opacity: 1; }
+@keyframes star-twinkle {
+  0%, 30% { opacity: 0.08; }
+  65% { opacity: 0.7; }
+  100% { opacity: 0.18; }
 }
 
 @keyframes cloud-drift-top {
-  from { transform: translate3d(-9px, 2px, 0) scale(1.02); }
-  to { transform: translate3d(9px, -5px, 0) scale(1.035); }
+  from { transform: translate3d(calc(-1 * var(--cloud-travel)), 2px, 0) scale(1.055); }
+  to { transform: translate3d(var(--cloud-travel), -3px, 0) scale(1.055); }
 }
 
 @keyframes cloud-drift-bottom {
-  from { transform: translate3d(7px, -2px, 0) scale(1.01); }
-  to { transform: translate3d(-7px, 7px, 0) scale(1.025); }
+  from { transform: translate3d(var(--cloud-travel), -2px, 0) scale(1.055); }
+  to { transform: translate3d(calc(-1 * var(--cloud-travel)), 3px, 0) scale(1.055); }
 }
 
 @keyframes scroll-cue-drift {
@@ -2156,34 +2479,29 @@ h2:focus-visible {
   50% { transform: translate3d(0, -4px, 0); }
 }
 
-@keyframes register-outline-pulse {
-  0%, 65%, 100% {
-    inset: -3px;
-    opacity: 0;
-    box-shadow: 0 0 0 0 rgb(85 216 232 / 0%);
-  }
-
-  12% {
-    inset: -5px;
-    opacity: 0.72;
-    box-shadow: 0 0 12px 1px rgb(85 216 232 / 18%);
-  }
-
-  27% {
-    inset: -8px;
-    opacity: 0;
-    box-shadow: 0 0 15px 2px rgb(85 216 232 / 0%);
-  }
+@keyframes register-sheen-pass {
+  0%, 76% { transform: translateX(-110%); }
+  88%, 100% { transform: translateX(110%); }
 }
 
-@keyframes track-copy-arrive {
-  from { opacity: 0; transform: translate3d(0, 7px, 0); }
-  to { opacity: 1; transform: translate3d(0, 0, 0); }
+@keyframes timeline-line {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
 }
 
-@keyframes track-scene-arrive {
-  from { opacity: 0; transform: translate3d(0, 8px, 0); }
-  to { opacity: 1; transform: translate3d(0, 0, 0); }
+@keyframes timeline-line-vertical {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+
+@keyframes milestone-arrive {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes trophy-glint {
+  from { transform: translateX(-110%); }
+  to { transform: translateX(110%); }
 }
 
 @media (prefers-reduced-motion: reduce) {
