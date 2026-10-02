@@ -28,7 +28,6 @@ Then open [http://127.0.0.1:8765](http://127.0.0.1:8765).
 - `assets/art/` — generated WebP scenes used by the page.
 - `assets/images/` — optimized WebP identity and portrait images.
 - `assets/source/` — supplied source images and the visual reference.
-- `phases.md`, `DESIGN.md`, `PRODUCT.md` — implementation plan and design notes.
 
 ## Updating event details
 
