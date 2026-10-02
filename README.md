@@ -2,6 +2,10 @@
 
 A responsive, single-page website for the SEDS REC student hackathon at Rajalakshmi Engineering College, Chennai. It uses static HTML, CSS and JavaScript, so there is no package installation or build step.
 
+## About this project
+
+This site began as an experiment: could a detailed, single prompt produce a complete hackathon website? The result is Sedhacks 2026—a responsive event site with its schedule, tracks, registration details and visual identity in one place.
+
 ## Preview locally
 
 From the project folder, run:
