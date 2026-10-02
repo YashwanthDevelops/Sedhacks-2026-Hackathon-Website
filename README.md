@@ -12,6 +12,10 @@ py -m http.server 8765 --bind 127.0.0.1
 
 Then open [http://127.0.0.1:8765](http://127.0.0.1:8765).
 
+## Live site
+
+GitHub Actions publishes the site to [GitHub Pages](https://yashwanthdevelops.github.io/Sedhacks-2026-Hackathon-Website/) whenever a commit is pushed to `main`.
+
 ## What’s included
 
 - Event overview, launch countdown, schedule, five hackathon tracks, prize details, partner information and FAQ.
